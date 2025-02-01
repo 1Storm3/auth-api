@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "/gengrpc;gengrpc";
+
+import "validate.proto";
+
+service UserService {
+  rpc Create (CreateUserRequest) returns (CreateUserResponse);
+  rpc Update (UpdateUserRequest) returns (UpdateUserResponse);
+  rpc Delete (DeleteUserRequest) returns (DeleteUserResponse);
+  rpc GetOne (GetOneUserRequest) returns (GetOneUserResponse);
+}
+
+message User {
+  string id = 1;
+  optional string firstName = 2;
+  optional string lastName = 3;
+  optional string middleName = 4;
+  string email = 5;
+  optional string password = 6;
+  optional string phone = 7;
+  optional string address = 8;
+  string role = 9;
+  string status = 10;
+  optional string photo = 11;
+  bool isVerified = 12;
+  optional string verifiedToken = 13;
+  string lastActivity = 14;
+  string createdAt = 15;
+  string updatedAt = 16;
+}
+
+message CreateUserRequest {
+  string email = 1 [(validate.rules).string = {email: true}];
+  string password = 2 [(validate.rules).string = {min_len: 8, max_len: 20}];
+}
+
+message UpdateUserRequest {
+  string id = 1 [(validate.rules).string = {uuid: true}];
+  optional string firstName = 2;
+  optional string lastName = 3;
+  optional string middleName = 4;
+  optional string email = 5;
+  optional string password = 6;
+  optional string phone = 7;
+  optional string address = 8;
+  optional string role = 9;
+  optional string status = 10;
+  optional string photo = 11;
+  optional bool isVerified = 12;
+  optional string verifiedToken = 13;
+}
+
+message DeleteUserRequest {
+  string id = 1 [(validate.rules).string = {uuid: true}];
+}
+
+message GetOneUserRequest {
+  string id = 1 [(validate.rules).string = {uuid: true}];
+}
+
+message CreateUserResponse {
+  User data = 1;
+}
+
+message UpdateUserResponse {
+  User data = 1;
+}
+
+message DeleteUserResponse {
+  string data = 1;
+}
+
+message GetOneUserResponse {
+  User data = 1;
+}

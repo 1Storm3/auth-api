@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package auth;
+
+option go_package = "/gengrpc;gengrpc";
+
+service AuthService {
+  rpc Login (LoginRequest) returns (LoginResponse);
+  rpc Register (RegisterRequest) returns (RegisterResponse);
+  rpc Verify (VerifyRequest) returns (VerifyResponse);
+  rpc Me (MeRequest) returns (MeResponse);
+}
+
+message MeRequest {
+  string userId = 1;
+}
+
+message MeResponse {
+  AuthUser user = 1;
+}
+
+message AuthUser {
+  string id = 1;
+  optional string firstName = 2;
+  optional string lastName = 3;
+  optional string middleName = 4;
+  string email = 5;
+  optional string phone = 6;
+  optional string address = 7;
+  string role = 8;
+  string status = 9;
+  optional string photo = 10;
+  bool isVerified = 11;
+  optional string verifiedToken = 12;
+  string lastActivity = 13;
+  string createdAt = 14;
+  string updatedAt = 15;
+}
+
+message VerifyRequest {
+  string token = 1;
+}
+
+message VerifyResponse {
+  bool isVerified = 1;
+}
+
+message RegisterRequest {
+  string firstName = 1;
+  optional string lastName = 2;
+  optional string middleName = 3;
+  string email = 4;
+  string password = 5;
+  optional string phone = 6;
+  optional string address = 7;
+  string role = 8;
+  string status = 9;
+  optional string photo = 10;
+  bool isVerified = 12;
+}
+
+message RegisterResponse {
+   string token = 1;
+}
+
+message LoginRequest {
+   string email = 1;
+   string password = 2;
+}
+
+message LoginResponse {
+   string token = 1;
+}
